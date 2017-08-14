@@ -1,0 +1,85 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+apply plugin: 'groovy'
+
+def distDir = file('dist')
+def appName = 'base'
+
+
+repositories {
+     mavenCentral()
+     jcenter()
+}
+
+repositories {
+	maven {
+	    url 'http://repo.spring.io/milestone'
+	}
+}
+
+buildscript {
+
+    repositories {
+    	mavenCentral()
+    }
+    
+    dependencies {
+        classpath ("org.springframework.boot:spring-boot-gradle-plugin:1.2.0.RELEASE")
+    }
+    
+    repositories {
+         jcenter()
+    }
+
+}
+
+sourceSets {
+
+	main {
+		java { srcDirs = ['src/main/java'] }
+	}
+	
+	test {
+	    resources.srcDir file ('src/test/resources')
+	}
+	
+	//integrationTest {
+	    // java.srcDir file('src/test/java-integration')
+	    // resources.srcDir file('src/test/resources')
+	//}
+}
+
+task printClasspath {
+    doLast {
+         configurations.testRuntime.each { println it }
+    }
+}
+
+dependencies {
+	
+	compile fileTree(dir: 'lib', include: '**/*.jar')
+	compile files('src/main/resources')
+	
+    // This dependency is exported to consumers, that is to say found on their compile classpath.
+    // api 'org.apache.commons:commons-math3:3.6.1'
+
+    // This dependency is used internally, and not exposed to consumers on their own compile classpath.
+    implementation 'com.google.guava:guava:21.0'
+
+    // Use JUnit test framework
+    testImplementation 'junit:junit:4.12'
+    
+    compile('org.springframework:spring-core:4.3.9.RELEASE')
+    compile('org.springframework:spring-context:4.3.9.RELEASE')
+}
+
+compileJava {
+   sourceCompatibility = '1.8'
+}
+
+
+
+
+
