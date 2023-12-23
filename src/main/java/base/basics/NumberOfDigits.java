@@ -14,7 +14,7 @@ public class NumberOfDigits {
 
         int value = Math.abs(n);
 
-        while (value % 10 !=0) {
+        while (value>0) {
             count++;
             value = value / 10;
         }
